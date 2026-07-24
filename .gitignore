@@ -1,0 +1,17 @@
+node_modules/
+frontend/node_modules/
+frontend/build/
+backend/.venv/
+backend/__pycache__/
+backend/**/*.pyc
+backend/tmp/
+frontend/.env
+backend/.env
+backend/users.db
+backend/storage/inputs/
+backend/storage/output/
+backend/storage/metadata/
+frontend_part/node_modules/
+frontend_part/dist/
+*.zip
+*.code-workspace

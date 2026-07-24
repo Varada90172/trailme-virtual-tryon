@@ -1,0 +1,102 @@
+[
+  {
+    "id": "SAREE-1001",
+    "name": "Kanchipuram Bridal Silk",
+    "price": "₹42,000",
+    "tag": "Kanchipuram Silk",
+    "color": "Deep Crimson & Gold",
+    "img_filename": "SAREE-1001.png",
+    "rating": 4.9,
+    "trials": 84
+  },
+  {
+    "id": "SAREE-1002",
+    "name": "Banarasi Pure Zari",
+    "price": "₹38,500",
+    "tag": "Banarasi",
+    "color": "Golden Ivory",
+    "img_filename": "SAREE-1002.jpg",
+    "rating": 4.8,
+    "trials": 142
+  },
+  {
+    "id": "SAREE-1003",
+    "name": "Chanderi Tissue Silk",
+    "price": "₹18,000",
+    "tag": "Chanderi",
+    "color": "Peacock Blue",
+    "img_filename": "SAREE-1003.jpeg",
+    "rating": 4.7,
+    "trials": 57
+  },
+  {
+    "id": "SAREE-1004",
+    "name": "Paithani Wedding Silk",
+    "price": "₹55,000",
+    "tag": "Paithani",
+    "color": "Royal Purple & Gold",
+    "img_filename": "SAREE-1004.jpg",
+    "rating": 4.9,
+    "trials": 38
+  },
+  {
+    "id": "SAREE-1005",
+    "name": "Pochampally Ikat Silk",
+    "price": "₹12,000",
+    "tag": "Pochampally",
+    "color": "Teal & Crimson",
+    "img_filename": "SAREE-1005.jpg",
+    "rating": 4.6,
+    "trials": 29
+  },
+  {
+    "id": "SAREE-1006",
+    "name": "Tussar Embroidered Silk",
+    "price": "₹22,000",
+    "tag": "Tussar",
+    "color": "Champagne & Rust",
+    "img_filename": "SAREE-1006.webp",
+    "rating": 4.7,
+    "trials": 63
+  },
+  {
+    "id": "SAREE-1007",
+    "name": "Mysore Crepe Silk",
+    "price": "₹15,500",
+    "tag": "Mysore Crepe",
+    "color": "Emerald Green",
+    "img_filename": "SAREE-1007.jpg",
+    "rating": 4.5,
+    "trials": 41
+  },
+  {
+    "id": "SAREE-1008",
+    "name": "Patola Double Ikat",
+    "price": "₹28,000",
+    "tag": "Patola",
+    "color": "Red & Navy",
+    "img_filename": "SAREE-1008.webp",
+    "rating": 4.8,
+    "trials": 72
+  },
+  {
+    "id": "SAREE-1009",
+    "name": "Kota Doria Silk",
+    "price": "₹9,500",
+    "tag": "Kota Doria",
+    "color": "Sunshine Yellow",
+    "img_filename": "SAREE-1009.jpg",
+    "rating": 4.4,
+    "trials": 19
+  },
+  {
+    "id": "SAREE-1010",
+    "name": "Sambalpuri Handloom",
+    "price": "₹14,000",
+    "tag": "Sambalpuri",
+    "color": "Black & Crimson",
+    "img_filename": "SAREE-1010.webp",
+    "rating": 4.6,
+    "trials": 35
+  }
+]
