@@ -1,3 +1,7 @@
+env:
+  - name: DATABRICKS_HTTP_PATH
+    value: "/sql/1.0/warehouses/aaf99a32a4f86652"
+
 command:
   - bash
   - -c
