@@ -52,6 +52,21 @@ app.mount(
     name="catalog-images",
 )
 
+from fastapi.responses import FileResponse
+
+FRONTEND_DIR = BASE_DIR.parent / "frontend_part" / "dist"
+
+if FRONTEND_DIR.exists():
+    app.mount(
+        "/assets",
+        StaticFiles(directory=FRONTEND_DIR / "assets"),
+        name="assets",
+    )
+
+    @app.get("/")
+    async def frontend():
+        return FileResponse(FRONTEND_DIR / "index.html")
+
 
 @app.on_event("startup")
 def startup_event():
