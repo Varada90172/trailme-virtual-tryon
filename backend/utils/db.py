@@ -2,7 +2,7 @@ import secrets
 from datetime import datetime, timedelta
 from typing import Optional, Dict
 
-from .databricks_connection import connection
+from .databricks_connection import get_connection
 
 CATALOG = "ecommerce"
 SCHEMA = "trailmedata"
@@ -18,7 +18,7 @@ def create_user(
     business_name: str = ""
 ) -> Optional[Dict]:
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         # Check if user already exists
@@ -82,7 +82,7 @@ def create_user(
 
 
 def get_user_by_email(email: str) -> Optional[Dict]:
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -118,7 +118,7 @@ def get_user_by_email(email: str) -> Optional[Dict]:
 
 
 def get_user_by_identifier(identifier: str) -> Optional[Dict]:
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -161,7 +161,7 @@ def create_session(user_id: int) -> str:
     expires_at = datetime.utcnow() + timedelta(days=7)
     created_at = datetime.utcnow()
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -191,7 +191,7 @@ def create_session(user_id: int) -> str:
 
 
 def get_user_by_session(token: str) -> Optional[Dict]:
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(f"""
@@ -226,7 +226,7 @@ def get_user_by_session(token: str) -> Optional[Dict]:
 
 
 def delete_session(token: str) -> bool:
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -258,7 +258,7 @@ def delete_session(token: str) -> bool:
 
 
 def ensure_tryon_session(session_id: str, user_id: int) -> None:
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -317,7 +317,7 @@ def update_tryon_session(
 
     ensure_tryon_session(session_id, user_id)
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         updates = []
@@ -358,7 +358,7 @@ def update_tryon_session(
 
 
 def get_tryon_session(session_id: str, user_id: int) -> Optional[Dict]:
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -394,7 +394,7 @@ def get_tryon_session(session_id: str, user_id: int) -> Optional[Dict]:
 
 
 def list_tryon_sessions(user_id: int) -> list[Dict]:
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -435,7 +435,7 @@ def list_vendor_records(table: str, vendor_user_id: int) -> list[Dict]:
 
     import json
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -468,7 +468,7 @@ def get_vendor_record(table: str, record_id: str, vendor_user_id: int) -> Option
 
     import json
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -510,7 +510,7 @@ def save_vendor_record(
 
     import json
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         encoded = json.dumps(payload)
@@ -567,7 +567,7 @@ def delete_vendor_record(
     if table not in {"vendor_products", "vendor_customers", "vendor_occasions"}:
         raise ValueError("Unsupported record type")
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
@@ -612,7 +612,7 @@ def create_order(
     customer_id: str | None,
 ) -> Dict:
 
-    cursor = connection.cursor()
+    cursor = get_connection().cursor()
 
     try:
         cursor.execute(
