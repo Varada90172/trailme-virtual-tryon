@@ -18,6 +18,10 @@ from .utils.db import get_tryon_session
 
 app = FastAPI(title="Virtual Try-On API")
 
+# --------------------------------------------------
+# CORS
+# --------------------------------------------------
+
 allowed_origins = [
     origin.strip()
     for origin in os.getenv(
@@ -35,6 +39,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# --------------------------------------------------
+# API Routes
+# --------------------------------------------------
+
 app.include_router(upload_router, prefix="/api")
 app.include_router(generate_router, prefix="/api")
 app.include_router(auth_router, prefix="/api")
@@ -43,64 +51,137 @@ app.include_router(dashboard_router, prefix="/api")
 app.include_router(vendor_data_router, prefix="/api")
 app.include_router(orders_router, prefix="/api")
 
-# Static files
+# --------------------------------------------------
+# Paths
+# --------------------------------------------------
+
 BASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BASE_DIR.parent
 
-app.mount(
-    "/catalog-images",
-    StaticFiles(directory=str(BASE_DIR / "catolog" / "images")),
-    name="catalog-images",
-)
+print("=" * 80)
+print("BASE_DIR:", BASE_DIR)
+print("PROJECT_ROOT:", PROJECT_ROOT)
+print("CURRENT WORKING DIRECTORY:", Path.cwd())
 
-from fastapi.responses import FileResponse
+possible_frontend_dirs = [
+    PROJECT_ROOT / "frontend_part" / "dist",
+    Path.cwd() / "frontend_part" / "dist",
+    Path("/app/frontend_part/dist"),
+    Path("./frontend_part/dist").resolve(),
+]
 
-FRONTEND_DIR = BASE_DIR.parent / "frontend_part" / "dist"
+FRONTEND_DIR = None
 
-if FRONTEND_DIR.exists():
+for path in possible_frontend_dirs:
+    print(f"Checking frontend path: {path}")
+    print(f"Exists: {path.exists()}")
+
+    if path.exists():
+        FRONTEND_DIR = path
+        print(f"Using frontend: {path}")
+        break
+
+if PROJECT_ROOT.exists():
+    print("\nProject Root Contents:")
+    for item in PROJECT_ROOT.iterdir():
+        print(" -", item.name)
+
+if FRONTEND_DIR:
+    print("\nFrontend Build Contents:")
+    for item in FRONTEND_DIR.iterdir():
+        print(" -", item.name)
+else:
+    print("\nFrontend build NOT FOUND.")
+
+print("=" * 80)
+
+# --------------------------------------------------
+# Catalog Images
+# --------------------------------------------------
+
+catalog_images = BASE_DIR / "catolog" / "images"
+
+if catalog_images.exists():
     app.mount(
-        "/assets",
-        StaticFiles(directory=FRONTEND_DIR / "assets"),
-        name="assets",
+        "/catalog-images",
+        StaticFiles(directory=str(catalog_images)),
+        name="catalog-images",
     )
 
-    @app.get("/")
-    async def frontend():
+# --------------------------------------------------
+# Serve React Frontend
+# --------------------------------------------------
+
+if FRONTEND_DIR:
+
+    assets_dir = FRONTEND_DIR / "assets"
+
+    if assets_dir.exists():
+        app.mount(
+            "/assets",
+            StaticFiles(directory=str(assets_dir)),
+            name="assets",
+        )
+
+    @app.get("/", include_in_schema=False)
+    async def root():
         return FileResponse(FRONTEND_DIR / "index.html")
 
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def spa(full_path: str):
+
+        # Do not intercept API requests
+        if (
+            full_path.startswith("api")
+            or full_path.startswith("catalog-images")
+            or full_path.startswith("docs")
+            or full_path.startswith("openapi.json")
+            or full_path.startswith("redoc")
+            or full_path.startswith("health")
+        ):
+            raise HTTPException(status_code=404)
+
+        requested_file = FRONTEND_DIR / full_path
+
+        if requested_file.exists() and requested_file.is_file():
+            return FileResponse(requested_file)
+
+        return FileResponse(FRONTEND_DIR / "index.html")
+
+# --------------------------------------------------
+# Startup
+# --------------------------------------------------
 
 @app.on_event("startup")
 def startup_event():
-    """
-    Application startup.
-    Databricks tables are already created,
-    so no SQLite initialization is required.
-    """
 
     storage_dir = BASE_DIR / "storage"
 
-    person_dir = storage_dir / "inputs" / "person"
-    outfit_dir = storage_dir / "inputs" / "outfit"
-    output_dir = storage_dir / "output"
-    metadata_dir = storage_dir / "metadata"
-
-    for directory in (
-        person_dir,
-        outfit_dir,
-        output_dir,
-        metadata_dir,
-    ):
+    for directory in [
+        storage_dir / "inputs" / "person",
+        storage_dir / "inputs" / "outfit",
+        storage_dir / "output",
+        storage_dir / "metadata",
+    ]:
         directory.mkdir(parents=True, exist_ok=True)
 
-    print("✅ Backend started successfully.")
+    print("Backend started successfully.")
 
+# --------------------------------------------------
+# Health Check
+# --------------------------------------------------
 
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
 
+# --------------------------------------------------
+# Result Image
+# --------------------------------------------------
 
 @app.get("/api/results/{session_id}")
 def get_result(session_id: str, user: CurrentUser):
+
     try:
         session = get_tryon_session(session_id, user["id"])
     except ValueError:
