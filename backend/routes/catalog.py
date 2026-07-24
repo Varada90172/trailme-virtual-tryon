@@ -4,16 +4,10 @@ from urllib.parse import urlparse
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-try:
-    from ..session.store import store
-    from ..utils.logging_config import logger
-    from ..utils.db import get_vendor_record, update_tryon_session
-    from .dependencies import CurrentUser
-except ImportError:  # pragma: no cover
-    from session.store import store
-    from utils.logging_config import logger
-    from utils.db import get_vendor_record, update_tryon_session
-    from routes.dependencies import CurrentUser
+from ..session.store import store
+from ..utils.logging_config import logger
+from ..utils.db import get_vendor_record, update_tryon_session
+from .dependencies import CurrentUser
 
 router = APIRouter()
 

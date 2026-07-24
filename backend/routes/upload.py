@@ -1,19 +1,11 @@
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
-try:
-    from ..processing.preprocess import preprocess_image
-    from ..session.store import store
-    from ..utils.logging_config import logger
-    from ..utils.validation import validate_upload
-    from ..utils.db import ensure_tryon_session
-    from .dependencies import CurrentUser
-except ImportError:  # pragma: no cover
-    from processing.preprocess import preprocess_image
-    from session.store import store
-    from utils.logging_config import logger
-    from utils.validation import validate_upload
-    from utils.db import ensure_tryon_session
-    from routes.dependencies import CurrentUser
+from ..processing.preprocess import preprocess_image
+from ..session.store import store
+from ..utils.logging_config import logger
+from ..utils.validation import validate_upload
+from ..utils.db import ensure_tryon_session
+from .dependencies import CurrentUser
 
 router = APIRouter()
 

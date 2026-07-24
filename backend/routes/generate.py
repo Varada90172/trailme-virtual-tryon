@@ -1,20 +1,12 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-try:
-    from ..processing.gemini_client import ImageGenerationError, generate_try_on
-    from ..session.store import store
-    from ..storage.result_store import save_result
-    from ..utils.logging_config import logger
-    from ..utils.db import get_tryon_session, update_tryon_session
-    from .dependencies import CurrentUser
-except ImportError:  # pragma: no cover
-    from processing.gemini_client import ImageGenerationError, generate_try_on
-    from session.store import store
-    from storage.result_store import save_result
-    from utils.logging_config import logger
-    from utils.db import get_tryon_session, update_tryon_session
-    from routes.dependencies import CurrentUser
+from ..processing.gemini_client import ImageGenerationError, generate_try_on
+from ..session.store import store
+from ..storage.result_store import save_result
+from ..utils.logging_config import logger
+from ..utils.db import get_tryon_session, update_tryon_session
+from .dependencies import CurrentUser
 
 router = APIRouter()
 

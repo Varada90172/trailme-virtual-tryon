@@ -11,16 +11,10 @@ from PIL import Image, ImageDraw
 
 from dotenv import load_dotenv
 
-try:
-    from .preprocess import preprocess_image
-    from .prompt_builder import build_prompt
-    from ..session.store import store
-    from ..utils.logging_config import logger
-except ImportError:  # pragma: no cover
-    from processing.preprocess import preprocess_image
-    from processing.prompt_builder import build_prompt
-    from session.store import store
-    from utils.logging_config import logger
+from .preprocess import preprocess_image
+from .prompt_builder import build_prompt
+from ..session.store import store
+from ..utils.logging_config import logger
 
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'), override=True)
 

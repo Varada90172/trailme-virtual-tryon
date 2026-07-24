@@ -5,14 +5,9 @@ from uuid import uuid4
 from fastapi import APIRouter, File, HTTPException, Query, UploadFile
 from pydantic import BaseModel, Field
 
-try:
-    from .dependencies import VendorUser
-    from ..utils.db import delete_vendor_record, list_vendor_records, save_vendor_record
-    from ..utils.validation import validate_upload
-except ImportError:  # pragma: no cover
-    from routes.dependencies import VendorUser
-    from utils.db import delete_vendor_record, list_vendor_records, save_vendor_record
-    from utils.validation import validate_upload
+from .dependencies import VendorUser
+from ..utils.db import delete_vendor_record, list_vendor_records, save_vendor_record
+from ..utils.validation import validate_upload
 
 router = APIRouter()
 

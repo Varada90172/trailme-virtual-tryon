@@ -1,11 +1,7 @@
 from fastapi import APIRouter
 
-try:
-    from .dependencies import VendorUser
-    from ..utils.db import list_tryon_sessions
-except ImportError:  # pragma: no cover
-    from routes.dependencies import VendorUser
-    from utils.db import list_tryon_sessions
+from .dependencies import VendorUser
+from ..utils.db import list_tryon_sessions
 
 router = APIRouter()
 

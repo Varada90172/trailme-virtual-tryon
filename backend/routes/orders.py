@@ -3,12 +3,8 @@ from uuid import uuid4
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-try:
-    from .dependencies import CurrentUser
-    from ..utils.db import create_order, get_tryon_session, update_tryon_session
-except ImportError:  # pragma: no cover
-    from routes.dependencies import CurrentUser
-    from utils.db import create_order, get_tryon_session, update_tryon_session
+from .dependencies import CurrentUser
+from ..utils.db import create_order, get_tryon_session, update_tryon_session
 
 router = APIRouter()
 

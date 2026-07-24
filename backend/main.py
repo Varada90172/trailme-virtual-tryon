@@ -6,26 +6,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-try:
-    from .routes.generate import router as generate_router
-    from .routes.upload import router as upload_router
-    from .routes.auth import router as auth_router
-    from .routes.catalog import router as catalog_router
-    from .routes.dashboard import router as dashboard_router
-    from .routes.vendor_data import router as vendor_data_router
-    from .routes.orders import router as orders_router
-    from .routes.dependencies import CurrentUser
-    from .utils.db import get_tryon_session
-except ImportError:  # pragma: no cover
-    from routes.generate import router as generate_router
-    from routes.upload import router as upload_router
-    from routes.auth import router as auth_router
-    from routes.catalog import router as catalog_router
-    from routes.dashboard import router as dashboard_router
-    from routes.vendor_data import router as vendor_data_router
-    from routes.orders import router as orders_router
-    from routes.dependencies import CurrentUser
-    from utils.db import get_tryon_session
+from .routes.generate import router as generate_router
+from .routes.upload import router as upload_router
+from .routes.auth import router as auth_router
+from .routes.catalog import router as catalog_router
+from .routes.dashboard import router as dashboard_router
+from .routes.vendor_data import router as vendor_data_router
+from .routes.orders import router as orders_router
+from .routes.dependencies import CurrentUser
+from .utils.db import get_tryon_session
 
 app = FastAPI(title="Virtual Try-On API")
 

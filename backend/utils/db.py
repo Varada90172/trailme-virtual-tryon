@@ -2,7 +2,7 @@ import secrets
 from datetime import datetime, timedelta
 from typing import Optional, Dict
 
-from utils.databricks_connection import connection
+from .databricks_connection import connection
 
 CATALOG = "ecommerce"
 SCHEMA = "trailmedata"

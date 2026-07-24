@@ -4,12 +4,8 @@ from typing import Literal, Optional
 from fastapi import APIRouter, Cookie, HTTPException, Response, status
 from pydantic import BaseModel, Field
 
-try:
-    from ..utils.db import create_session, create_user, delete_session, get_user_by_identifier, get_user_by_session
-    from ..utils.auth import hash_password, verify_password
-except ImportError:  # pragma: no cover
-    from utils.db import create_session, create_user, delete_session, get_user_by_identifier, get_user_by_session
-    from utils.auth import hash_password, verify_password
+from ..utils.db import create_session, create_user, delete_session, get_user_by_identifier, get_user_by_session
+from ..utils.auth import hash_password, verify_password
 
 router = APIRouter()
 SESSION_COOKIE = "trailme_session"
