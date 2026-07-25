@@ -40,9 +40,15 @@ def get_connection():
             credentials_provider=lambda: oauth_service_principal(config),
         )
 
+        # 👇 Add this block
+        cursor = connection.cursor()
+        cursor.execute("SELECT current_user(), session_user()")
+        print("Connected as:", cursor.fetchone())
+        cursor.close()
+
         return connection
 
-    # Option 2: Personal Access Token (fallback)
+    # Option 2: PAT
     token = os.getenv("DATABRICKS_ACCESS_TOKEN") or os.getenv("DATABRICKS_TOKEN")
 
     if token:
@@ -51,6 +57,13 @@ def get_connection():
             http_path=http_path,
             access_token=token,
         )
+
+        # 👇 Add this block
+        cursor = connection.cursor()
+        cursor.execute("SELECT current_user(), session_user()")
+        print("Connected as:", cursor.fetchone())
+        cursor.close()
+
         return connection
 
     raise RuntimeError(
