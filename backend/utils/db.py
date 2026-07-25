@@ -4,7 +4,7 @@ from typing import Optional, Dict
 
 from .databricks_connection import get_connection
 
-CATALOG = "ecommerce"
+CATALOG = "trailme_demo"
 SCHEMA = "trailmedata"
 DB = f"{CATALOG}.{SCHEMA}"
 
